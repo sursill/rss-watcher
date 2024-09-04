@@ -1,6 +1,6 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "rss-checker"
-main = "src/index.js"
+main = "dist/index.mjs"
 compatibility_date = "2024-09-03"
 
 # Cron Triggers
@@ -8,6 +8,9 @@ compatibility_date = "2024-09-03"
 # Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
 [triggers]
 crons = ["0 * * * *"] # * * * * * = run every minute
+
+[build]
+command = "npm install && npm run build"
 
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Worker, running it closer to your back-end infrastructure

@@ -1,3 +1,6 @@
+import { XMLParser } from 'fast-xml-parser'
+import Release from './classes/GitLab/release';
+
 /**
  * Welcome to Cloudflare Workers!
  *
@@ -12,6 +15,8 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+const RSS_FEED = 'https://dev.sp-tarkov.com/SPT/Stable-releases.rss'
+
 export default {
 	async fetch(req) {
 		const url = new URL(req.url)
@@ -23,18 +28,17 @@ export default {
 	// The scheduled handler is invoked at the interval set in our wrangler.toml's
 	// [[triggers]] configuration.
 	async scheduled(event, env, ctx) {
-		// A Cron Trigger can make requests to other endpoints on the Internet,
-		// publish to a Queue, query a D1 Database, and much more.
-		//
-		// We'll keep it simple and make an API call to a Cloudflare API:
-		let resp = await fetch('https://api.cloudflare.com/client/v4/ips');
-		let wasSuccessful = resp.ok ? 'success' : 'fail';
+    const response = await fetch(RSS_FEED)
+    const data = await response.text()
 
-		// You could store this result in KV, write to a D1 Database, or publish to a Queue.
-		// In this template, we'll just log the result:
-		console.log(`trigger fired at ${event.cron}: ${wasSuccessful}`);
-		console.log({
-      response: resp
-    });
+    const parser = new XMLParser()
+    const { rss } = parser.parse(data)
+    const latest = new Release(rss.channel.item[0])
+
+    console.log(RSS_FEED)
+    console.log({
+      channel: rss.channel,
+      latest,
+    })
 	},
 };

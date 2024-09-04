@@ -8,6 +8,7 @@ run:	## Run the app
 
 exec:	## SSH into a container with the app
 	@docker run -it -v ./:/home/node/app -w /home/node/app --name "rss-checker" node:20.17-alpine sh
+	@make clean
 
 clean:  ## Remove existing containers and volumes make
 	@docker container rm --volumes $$(docker ps -a --filter "status=exited" --filter "name=rss-checker" --quiet) &> /dev/null

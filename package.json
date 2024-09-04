@@ -2,12 +2,22 @@
   "name": "rss-checker",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "module": "./dist/index.mjs",
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev --test-scheduled",
-    "start": "wrangler dev --test-scheduled"
+    "start": "wrangler dev --test-scheduled",
+    "build": "rollup --config"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.21.2",
     "wrangler": "^3.60.3"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.0"
   }
 }
