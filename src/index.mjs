@@ -1,5 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
-import Release from './classes/GitLab/release';
+import { gt } from 'semver'
+import Release from './classes/GitLab/release'
 
 /**
  * Welcome to Cloudflare Workers!
