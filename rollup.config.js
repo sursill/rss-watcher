@@ -13,6 +13,6 @@ export default {
   plugins: [
     commonjs(),
     nodeResolve(),
-    // terser()
+    terser()
   ]
 }
