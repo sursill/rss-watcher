@@ -4,11 +4,10 @@ help:	## Show this help.
 
 run:	## Run the app
 	@clear
-	@docker run --env FORCE_COLOR=1 -v ./:/home/node/app -w /home/node/app --name "rss-watcher" node:20.17-alpine npm run dev
+	@docker run --rm --env FORCE_COLOR=1 -v ./:/home/node/app -w /home/node/app --name "rss-watcher" node:20.17-alpine npm run dev
 
 exec:	## SSH into a container with the app
-	@docker run -it -v ./:/home/node/app -w /home/node/app --name "rss-watcher" node:20.17-alpine sh
-	@make clean
+	@docker run --rm -it -v ./:/home/node/app -w /home/node/app --name "rss-watcher" node:20.17-alpine sh
 
 clean:  ## Remove existing containers and volumes make
 	@docker container rm --volumes $$(docker ps -a --filter "status=exited" --filter "name=rss-watcher" --quiet) &> /dev/null
