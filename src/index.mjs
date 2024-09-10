@@ -30,16 +30,20 @@ export default {
     const lastRelease = await this.getLastRelease(env)
     const newRelease = gt(lastRelease.version, latest.version)
 
-    console.log({
-      feed: RSS_FEED,
-      latest,
-      last: lastRelease,
-      isNewRelease: newRelease
-    })
+    // console.log({
+    //   feed: RSS_FEED,
+    //   latest,
+    //   last: lastRelease,
+    //   isNewRelease: newRelease
+    // })
 
     if (newRelease) {
       this.updateLatestRelease(env, latest)
-      await notify()
+
+      const title = 'New SPTarkov released'
+      const message = `SPTarkov has released a new version: ${latest.version}.`
+      const urlTitle = 'Open release details'
+      await notify(env, message, title, latest.link, urlTitle)
     }
 	},
 
