@@ -9,5 +9,8 @@ run:	## Run the app
 exec:	## SSH into a container with the app
 	@docker run --rm -it -v ./:/home/node/app -w /home/node/app --name "rss-watcher" node:20.17-slim sh
 
+deploy: ## Deploy the worker to cloudflare
+	@npm run deploy
+
 clean:  ## Remove existing containers and volumes make
 	@docker container rm --volumes $$(docker ps -a --filter "status=exited" --filter "name=rss-watcher" --quiet) &> /dev/null
