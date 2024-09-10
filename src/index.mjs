@@ -28,17 +28,18 @@ export default {
     const latest = new Release(rss.channel.item[0])
 
     const lastRelease = await this.getLastRelease(env)
-    const newRelease = gt(lastRelease.version, latest.version)
+    const newRelease = gt(latest.version, lastRelease.version)
 
     // console.log({
     //   feed: RSS_FEED,
     //   latest,
     //   last: lastRelease,
-    //   isNewRelease: newRelease
+    //   isNewRelease: newRelease,
+    //   cond: `${latest.version} > ${lastRelease.version}`
     // })
 
     if (newRelease) {
-      this.updateLatestRelease(env, latest)
+      await this.updateLatestRelease(env, latest)
 
       const title = 'New SPTarkov released'
       const message = `SPTarkov has released a new version: ${latest.version}.`
