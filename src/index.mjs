@@ -7,13 +7,24 @@ const RSS_FEED = 'https://dev.sp-tarkov.com/SPT/Stable-releases.rss'
 
 export default {
 	async fetch(req, env) {
-    // const secret = req.headers.get('secret')
-    // if (!secret || secret !== 'sursill') {
-    //   return new Response(null, { status: 404 })
-    // }
+    const secret = req.headers.get('secret')
+    if (!secret || secret !== 'sursill') {
+      return new Response(null, { status: 404 })
+    }
+
+    const token = env.PUSHOVER_TOKEN
+    const user = env.PUSHOVER_USER
+
+    let hasPushover = false
+    if (token && user) {
+      hasPushover = true
+    }
 
     const lastRelease = await this.getLastRelease(env)
-    return Response.json(lastRelease)
+    return Response.json({
+      lastRelease,
+      hasPushover
+    })
 	},
 
 	async scheduled(event, env, ctx) {
